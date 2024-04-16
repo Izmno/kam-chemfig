@@ -1,0 +1,17 @@
+\documentclass{minimal}
+\def\pgfsysdriver{pgfsys-dvisvgm.def}
+\usepackage{chemfig}
+
+\begin{document}
+\begin{tikzpicture}
+    \node at (0,0) {\chemfig{
+        H
+        -C
+        (-[2]H)
+        (-[-2]H)
+        -\Charge{90=\|}{N}
+        (-[-2]H)
+        -H
+    }};
+\end{tikzpicture}
+\end{document}
