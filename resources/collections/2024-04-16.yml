@@ -1,0 +1,50 @@
+structures:
+  # Reeks 1
+  - name: ethanol
+    compound_name: ethanol
+    chemfig: CH_3-CH_2-\Charge{90=\|,270=\|}{O}-H
+  - name: ethanal
+    compoinud_name: ethanal
+    chemfig: CH_3-C(=[2]\Charge{45=\|,135=\|}{O})-H
+  - name: ethanoic acid
+    compound_name: ethanoic acid
+    chemfig: |
+        CH_3
+        -C
+        (=[2]\Charge{45=\|,135=\|}{O})
+        -\Charge{90=\|,270=\|}{C}
+        -H
+  # Reeks 2
+  - name: propane
+    compound_name: propane
+    chemfig: CH_3-CH_2-CH_3
+  - name: propylene
+    compound_name: propylene
+    chemfig: CH_2=CH-CH_3
+  - name: propyne
+    compound_name: propyne
+    chemfig: CH~C-CH_3
+  # Reeks 3
+  - name: methanol
+    compound_name: methanol
+    chemfig: |
+        H
+        -C
+        (-[2]H)
+        (-[-2]H)
+        -\Charge{90=\|,270=\|}{O}
+        -H
+  - name: methylamine
+    compound_name: methylamine
+    chemfig: |
+        H
+        -C
+        (-[2]H)
+        (-[-2]H)
+        -\Charge{90=\|}{N}
+        (-[-2]H)
+        -H
+  - name: chloromethane
+    compound_name: chloromethane
+    chemfig: H-C(-[2]H)(-[-2]H)-\Charge{0=\|,90=\|,270=\|}{Cl}
+

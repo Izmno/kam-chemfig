@@ -1,0 +1,95 @@
+compounds:
+  - name: propane
+    smiles: CCC
+    aliases:
+      en:
+        - propane
+      nl:
+        - propaan
+    tags:
+      - alkane
+  - name: propylene
+    smiles: C=CC
+    aliases:
+      en:
+        - propylene
+      nl:
+        - propeen
+    tags:
+      - alkene
+  - name: propyne
+    smiles: CC#C
+    aliases:
+      en:
+        - propyne
+      nl:
+        - propyn
+    tags:
+      - alkyne
+  - name: methanol
+    smiles: CO
+    aliases:
+      en:
+        - methyl alcohol
+      nl:
+        - methanol
+        - methylalcohol
+    tags:
+      - alcohol
+  - name: ethanol
+    smiles: OCC
+    aliases:
+      en:
+        - ethanol
+        - ethyl alcohol
+      nl:
+        - ethanol
+        - ethylalcohol
+    tags:
+      - alcohol
+  - name: ethanal
+    smiles: CC=O
+    aliases:
+      en:
+        - acetaldehyde
+        - ethanal
+      nl:
+        - aceetaldehyde
+        - ethanal
+    tags:
+      - aldehyde
+  - name: ethanoic acid
+    smiles: CC(=O)O
+    aliases:
+      en:
+        - acetic acid
+        - ethanoic acid
+      nl:
+        - azijnzuur
+        - ethaanzuur
+    tags:
+      - acid
+      - carboxylic acid
+  - name: methylamine
+    smiles: CN
+    aliases:
+      en:
+        - methylamine
+      nl:
+        - methylamine
+        - monomethylamine
+    tags:
+      - amine
+  - name: chloromethane
+    smiles: CCl
+    aliases:
+      en:
+        - chloromethane
+        - methyl chloride
+      nl:
+        - chloormethaan
+        - methylchloride
+    tags:
+      - haloalkane
+      - halogenoalkane
+      - alkyl halide

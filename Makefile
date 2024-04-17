@@ -2,27 +2,28 @@ DOCKER_REPOSITORY := docker.izmno.be
 DOCKER_IMAGE      := kam-chemfig
 VERSION           := 0.1.0
 
-DOCKER_IMAGE      := $(DOCKER_REPOSITORY)/$(DOCKER_IMAGE):$(VERSION)
+DOCKER_FULL_IMAGE := $(DOCKER_REPOSITORY)/$(DOCKER_IMAGE):$(VERSION)
 DOCKER_TAGS       := $(DOCKER_REPOSITORY)/$(DOCKER_IMAGE):latest
 DOCKER_TAGS       += $(DOCKER_FULL_IMAGE)
 
-SRC_DIR           := src
-DST_DIR           := out
+CHEMFIG_GENERATOR := /usr/local/bin/chemfig
 
-TEX_SOURCES       := $(shell find $(SRC_DIR) -type f -name '*.tex')
-DVI_TARGETS       := $(patsubst $(SRC_DIR)/%.tex,$(DST_DIR)/%.dvi,$(TEX_SOURCES))
-SVG_TARGETS       := $(patsubst $(SRC_DIR)/%.tex,$(DST_DIR)/%.svg,$(TEX_SOURCES))
-PNG_TARGETS       := $(patsubst $(SRC_DIR)/%.tex,$(DST_DIR)/%.png,$(TEX_SOURCES))
+OUTPUT_DIR        := out
+
+TEX_SOURCES       := $(shell $(CHEMFIG_GENERATOR) --output-dir=$(OUTPUT_DIR) targets)
+DVI_TARGETS       := $(patsubst %.tex,%.dvi,$(TEX_SOURCES))
+SVG_TARGETS       := $(patsubst %.tex,%.svg,$(TEX_SOURCES))
+PNG_TARGETS       := $(patsubst %.tex,%.png,$(TEX_SOURCES))
 
 .PHONY: build
 
 build: MAKE_TARGET=_build
 build: docker-make
 
-_build: $(DVI_TARGETS) $(SVG_TARGETS) $(PNG_TARGETS) _clean
+_build: sources $(DVI_TARGETS) $(SVG_TARGETS) $(PNG_TARGETS) _clean
 
 _clean:
-	@find $(DST_DIR) -type f ! \( \
+	@find $(OUTPUT_DIR) -type f ! \( \
 		-name '*.tex' \
 		-o -name '*.pdf' \
 		-o -name '*.png' \
@@ -30,7 +31,10 @@ _clean:
 		-o -name '*.dvi' \) \
 		-delete
 
-$(DST_DIR)/%.dvi: $(SRC_DIR)/%.tex
+sources:
+	$(CHEMFIG_GENERATOR) --output-dir=$(OUTPUT_DIR) generate
+
+%.dvi: %.tex
 	mkdir -p $(dir $@)
 	latex --output-directory=$(dir $@) $<
 
@@ -41,6 +45,12 @@ $(DST_DIR)/%.dvi: $(SRC_DIR)/%.tex
 %.png: %.svg
 	mkdir -p $(dir $@)
 	convert -background none -density 1200 -resize 1200x $< $@
+
+##
+## Go utility
+##
+build-go:
+	go build -o bin/chemfig ./cmd/main.go
 
 ##
 ## Packaging
@@ -59,12 +69,12 @@ PACKAGE_DIR       ?= 2024-04-16
 PACKAGE_FILETYPE  ?= png
 PACKAGE_FILENAME  ?= structuren.zip
 
-_PACKAGE_TARGETS  := $(shell find $(DST_DIR)/$(PACKAGE_DIR) -type f -name '*.$(strip $(PACKAGE_FILETYPE))')
+_PACKAGE_TARGETS  := $(shell find $(OUTPUT_DIR)/$(PACKAGE_DIR) -type f -name '*.$(strip $(PACKAGE_FILETYPE))')
 
 package: $(PACKAGE_FILENAME)
 
 $(PACKAGE_FILENAME): $(_PACKAGE_TARGETS)
-	cd $(DST_DIR)/$(PACKAGE_DIR) && \
+	cd $(OUTPUT_DIR)/$(PACKAGE_DIR) && \
 		find . -type f -name '*.$(strip $(PACKAGE_FILETYPE))' -exec zip $(abspath $(PACKAGE_FILENAME)) {} \;
 
 ##
@@ -95,4 +105,4 @@ docker-make:
 	docker run --rm \
 		-v $(PWD):/workdir \
 		-w /workdir \
-		$(DOCKER_IMAGE) make $(MAKE_TARGET)
+		$(DOCKER_FULL_IMAGE) make $(MAKE_TARGET)

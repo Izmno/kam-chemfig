@@ -22,5 +22,6 @@ Thumbs.db
 *.run.xml
 
 # Project specific
+bin
 out
 structuren.zip
