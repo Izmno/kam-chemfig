@@ -12,7 +12,7 @@ structures:
         CH_3
         -C
         (=[2]\Charge{45=\|,135=\|}{O})
-        -\Charge{90=\|,270=\|}{C}
+        -\Charge{90=\|,270=\|}{O}
         -H
   # Reeks 2
   - name: propane
